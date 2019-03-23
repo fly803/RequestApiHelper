@@ -7,7 +7,7 @@ package com.cg.requesttest.api;
  */
 
 public class AppConfig{
-    public static final String TAG = "BaseProjectTest";
+    public static final String TAG = "RequestApiHelpTest";
     public static  int widthInPx = 1080;
     public static  int heightInPx = 1920;
 }

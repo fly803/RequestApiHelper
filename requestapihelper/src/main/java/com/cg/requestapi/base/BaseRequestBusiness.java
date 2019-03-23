@@ -58,7 +58,8 @@ public abstract class BaseRequestBusiness {
                 return createData(result.getData());
             } else {
                 //统一处理服务器返回值非正常结果
-                Log.d(BaseProjectConfig.TAG, "BaseRequestBusiness统一处理服务器返回值非正常结果apply: " + BaseProjectConfig.getApiReason(result.getCode()));
+                Log.d(BaseProjectConfig.TAG, "BaseRequestBusiness统一处理服务器返回值非正常结果apply: " +"code:"+result.getCode()+
+                        BaseProjectConfig.getApiReason(result.getCode()));
                 return Observable.error(new ApiException(BaseProjectConfig.getApiReason(result.getCode())));
             }
           }
