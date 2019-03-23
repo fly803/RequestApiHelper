@@ -8,10 +8,18 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
+import com.cg.requestapi.base.BaseResponse;
+import com.cg.requestapi.request.RequestAPI;
+import com.cg.requestapi.request.retrofit.interfaces.SubscriberOnNextListener;
+import com.cg.requestapi.request.retrofit.subscriber.ProgressSubscriber;
 import com.cg.requesttest.adapter.MainInterfaceListAdapter;
+import com.cg.requesttest.api.AppConfig;
+import com.cg.requesttest.api.RequestApiInterface;
 import com.cg.requesttest.data.MainInterfaceItem;
+import com.cg.requesttest.data.response.MyResponse;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -123,14 +131,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void interfaceTest() {
-//        RequestAPI.getInstance().toSubscribe(((RequestApiInterface) (RequestAPI.getInstance().getApi(RequestApiInterface.class))).psalms(3),
-//                new ProgressSubscriber<BaseResponse<MyResponse.DataBean>>(new SubscriberOnNextListener<MyResponse.DataBean>() {
-//                    @Override
-//                    public void onNext(MyResponse.DataBean myResponseException) {
-//                        Log.d(AppConfig.TAG, "MainActivity onNext: " + myResponseException.getName());
-//                        Snackbar.make(mRvDataIndex, "getEnvProportion:" + myResponseException.getPhone(), Snackbar.LENGTH_SHORT).show();
-//                    }
-//                }, MainActivity.this));
+        RequestAPI.getInstance().toSubscribe(((RequestApiInterface) (RequestAPI.getInstance().getApi(RequestApiInterface.class))).psalms(3),
+                new ProgressSubscriber<BaseResponse<MyResponse.DataBean>>(new SubscriberOnNextListener<MyResponse.DataBean>() {
+                    @Override
+                    public void onNext(MyResponse.DataBean myResponseException) {
+                        Log.d(AppConfig.TAG, "MainActivity onNext: " + myResponseException.getName());
+                        Snackbar.make(mRvDataIndex, "getEnvProportion:" + myResponseException.getPhone(), Snackbar.LENGTH_SHORT).show();
+                    }
+                }, MainActivity.this));
     }
 
 }

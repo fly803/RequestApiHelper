@@ -27,7 +27,6 @@ public class BaseProjectConfig {
      * @param isNetRequestInterceptorOpen 是否打印网络请求log
      * @param isBaseURLInterceptorOpen 是否开启BaseURL过滤器
      * @param isHeaderInterceptorOpen 是否开启请求头过滤器
-     * @param stackview 栈结构分析样式
      * @param baseurl 网络请求baseurl
      * @param successcode 网络请求成功code，例如200
      * @param tag 打印log的tag
@@ -37,7 +36,7 @@ public class BaseProjectConfig {
      */
     public static void init(Application application, 
                             boolean isNetRequestInterceptorOpen, boolean isBaseURLInterceptorOpen,boolean isHeaderInterceptorOpen,
-                            int stackview, String baseurl, int successcode, String tag,String loadingmessage, 
+                            String baseurl, int successcode, String tag,String loadingmessage, 
                             Map<Integer, String> serverReturnCodeMap,Map<String, String> baseURLMap){
         isNetRequestInterceptor = isNetRequestInterceptorOpen;
         isBaseURLInterceptor = isBaseURLInterceptorOpen;

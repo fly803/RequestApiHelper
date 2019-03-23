@@ -4,12 +4,13 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.cg.requesttest"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -32,4 +33,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
+    implementation project(path: ':requestapihelper')
 }
