@@ -1,7 +1,7 @@
-package com.cg.request.adapter;
+package com.cg.requesttest.adapter;
 
-import com.cg.request.R;
-import com.cg.request.data.MainInterfaceItem;
+import com.cg.requesttest.R;
+import com.cg.requesttest.data.MainInterfaceItem;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 

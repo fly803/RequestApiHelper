@@ -1,4 +1,4 @@
-package com.cg.request.data;
+package com.cg.requesttest.data;
 
 public class MainInterfaceItem {
 

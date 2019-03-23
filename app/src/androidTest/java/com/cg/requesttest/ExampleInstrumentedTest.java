@@ -1,4 +1,4 @@
-package com.cg.request;
+package com.cg.requesttest;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

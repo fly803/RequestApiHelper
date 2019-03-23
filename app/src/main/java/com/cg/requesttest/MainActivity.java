@@ -1,9 +1,6 @@
-package com.cg.request;
+package com.cg.requesttest;
 
-import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -11,12 +8,10 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.cg.request.adapter.MainInterfaceListAdapter;
-import com.cg.request.data.MainInterfaceItem;
+import com.cg.requesttest.adapter.MainInterfaceListAdapter;
+import com.cg.requesttest.data.MainInterfaceItem;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
