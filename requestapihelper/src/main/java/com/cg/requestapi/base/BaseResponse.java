@@ -1,5 +1,7 @@
 package com.cg.requestapi.base;
 
+import java.util.List;
+
 /**
  * @author sam
  * @version 1.0
@@ -26,20 +28,44 @@ package com.cg.requestapi.base;
            3、在我们的自定义的Rxjava订阅者 subscriber中的onError（）中加入我们刚才定义的ResultException。
  */
 public class BaseResponse<T> {
-    public int code;
-    public String message;
-    public T data;
-
+    private int code;
+    private String message;
+    private T data;
+    private int dataType;
+    private String msg;
+    private int err_code;
+    private String err_msg;
     /**
      * 扩展字段
      * 0:data为对象
      * 1:data为集合
      * 2:date为空或者null字段
      */
-    public int dataType;
 
-    public String msg;
+    public int getErr_code() {
+        return err_code;
+    }
 
+    public void setErr_code(int err_code) {
+        this.err_code = err_code;
+    }
+
+    public String getErr_msg() {
+        return err_msg;
+    }
+
+    public void setErr_msg(String err_msg) {
+        this.err_msg = err_msg;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+    
     public int getCode() {
         return code;
     }
@@ -64,13 +90,7 @@ public class BaseResponse<T> {
         this.msg = msg;
     }
 
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
+    
 
     public int getDataType() {
         return dataType;

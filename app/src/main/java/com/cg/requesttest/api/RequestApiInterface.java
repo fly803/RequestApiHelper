@@ -2,6 +2,7 @@ package com.cg.requesttest.api;
 
 
 import com.cg.requestapi.base.BaseResponse;
+import com.cg.requesttest.data.response.AppList;
 import com.cg.requesttest.data.response.BookSearchResponse;
 import com.cg.requesttest.data.response.IpResult;
 import com.cg.requesttest.data.response.MyResponse;
@@ -97,5 +98,7 @@ public interface RequestApiInterface {
     @GET("test/cg")
     Observable<BaseResponse<MyResponse.DataBean>> psalms(@Query("param") int type);
 
+    @GET("app/box/list")
+    Observable<BaseResponse<AppList.DataBean>> appListinterfaceTest();
 
 }

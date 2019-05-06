@@ -13,7 +13,6 @@ import retrofit2.HttpException;
 /** 
  * 统一处理网络请求异常
  * @author  sam
- * @date   2019/3/22
  * @version 1.0
  */ 
 public class ExceptionEngine {
@@ -65,11 +64,11 @@ public class ExceptionEngine {
             }
             ex.setMessage("网络错误:"+httpExceptionMessage);  //均视为网络错误
             return ex;
-        } else if (e instanceof ServerException){    //服务器返回的错误
-            ServerException resultException = (ServerException) e;
-            ex = new ApiException(resultException, resultException.getCode());
-            ex.setMessage(resultException.getMsg());
-            return ex;
+//        } else if (e instanceof ServerException){    //服务器返回的错误
+//            ServerException resultException = (ServerException) e;
+//            ex = new ApiException(resultException, resultException.getCode());
+//            ex.setMessage(resultException.getMsg());
+//            return ex;
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException){

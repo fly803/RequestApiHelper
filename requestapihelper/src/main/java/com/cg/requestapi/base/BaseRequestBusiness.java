@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.cg.requestapi.configs.BaseProjectConfig;
 import com.cg.requestapi.request.retrofit.exception.ApiException;
+import com.cg.requestapi.request.retrofit.exception.ServerException;
 import com.cg.requestapi.request.retrofit.subscriber.ProgressSubscriber;
 
 import io.reactivex.Observable;
@@ -54,13 +55,11 @@ public abstract class BaseRequestBusiness {
         return tObservable.flatMap(new Function<BaseResponse<T>, ObservableSource<T>>() {
           @Override public Observable<T> apply(BaseResponse<T> result) {
             //成功后交给界面处理
-            if (result.getCode() == BaseProjectConfig.successCode) {
+            if (result.getErr_code() == BaseProjectConfig.successCode) {
                 return createData(result.getData());
             } else {
                 //统一处理服务器返回值非正常结果
-                Log.d(BaseProjectConfig.TAG, "BaseRequestBusiness统一处理服务器返回值非正常结果apply: " +"code:"+result.getCode()+
-                        BaseProjectConfig.getApiReason(result.getCode()));
-                return Observable.error(new ApiException(BaseProjectConfig.getApiReason(result.getCode())));
+                return Observable.error(new ServerException(result.getErr_code(),result.getMsg()));
             }
           }
         })
@@ -81,7 +80,7 @@ public abstract class BaseRequestBusiness {
   /**
    * 创建成功的数据,观察者模式,这里产生事件,事件产生后发送给接受者
    */
-  private static <T> Observable<T> createData(final T data) {
+  private static <T> Observable createData(final T data) {
     return Observable.create(new ObservableOnSubscribe<T>() {
       @Override public void subscribe(ObservableEmitter<T> e) throws Exception {
           e.onNext(data);

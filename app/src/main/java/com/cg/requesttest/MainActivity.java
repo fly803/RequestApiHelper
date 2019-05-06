@@ -19,6 +19,7 @@ import com.cg.requesttest.adapter.MainInterfaceListAdapter;
 import com.cg.requesttest.api.AppConfig;
 import com.cg.requesttest.api.RequestApiInterface;
 import com.cg.requesttest.data.MainInterfaceItem;
+import com.cg.requesttest.data.response.AppList;
 import com.cg.requesttest.data.response.MyResponse;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -106,6 +107,12 @@ public class MainActivity extends AppCompatActivity {
         mainInterfaceItem03.setBackgroundColor(BG_COLORS[12]);
         listMainInterfaceItem.add(mainInterfaceItem03);
 
+        MainInterfaceItem mainInterfaceItem4 = new MainInterfaceItem();
+        mainInterfaceItem4.setName("App列表测试");
+        mainInterfaceItem4.setMethod("appListinterfaceTest");
+        mainInterfaceItem4.setBackgroundColor(BG_COLORS[13]);
+        listMainInterfaceItem.add(mainInterfaceItem4);
+
 
         for (int i = 14; i < 18; i++) {
             MainInterfaceItem mainInterfaceItem = new MainInterfaceItem();
@@ -121,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void runMethod(String methodName) {
         switch (methodName) {
+            case "appListinterfaceTest":
+                appListinterfaceTest();
+                break;
             case "interfaceTest":
                 interfaceTest();
                 break;
@@ -135,8 +145,28 @@ public class MainActivity extends AppCompatActivity {
                 new ProgressSubscriber<BaseResponse<MyResponse.DataBean>>(new SubscriberOnNextListener<MyResponse.DataBean>() {
                     @Override
                     public void onNext(MyResponse.DataBean myResponseException) {
-                        Log.d(AppConfig.TAG, "MainActivity onNext: " + myResponseException.getName());
                         Snackbar.make(mRvDataIndex, "getEnvProportion:" + myResponseException.getPhone(), Snackbar.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSeverError(int code, String msg) {
+                        
+                    }
+
+                }, MainActivity.this));
+    }
+    
+    private void appListinterfaceTest() {
+        RequestAPI.getInstance().toSubscribe(((RequestApiInterface) (RequestAPI.getInstance().getApi(RequestApiInterface.class))).appListinterfaceTest(),
+                new ProgressSubscriber<BaseResponse<AppList.DataBean>>(new SubscriberOnNextListener<AppList.DataBean>() {
+                    @Override
+                    public void onNext(AppList.DataBean myResponse) {
+//                        Snackbar.make(mRvDataIndex, "appListinterfaceTest:" + myResponse.getItems().get(0).getName(), Snackbar.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSeverError(int code, String msg) {
+                        
                     }
                 }, MainActivity.this));
     }
