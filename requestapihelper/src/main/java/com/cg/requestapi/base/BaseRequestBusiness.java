@@ -55,6 +55,7 @@ public abstract class BaseRequestBusiness {
         return tObservable.flatMap(new Function<BaseResponse<T>, ObservableSource<T>>() {
           @Override public Observable<T> apply(BaseResponse<T> result) {
             //成功后交给界面处理
+//            return Observable.error(new ServerException(123,"错了"));
             if (result.getErr_code() == BaseProjectConfig.successCode) {
                 return createData(result.getData());
             } else {

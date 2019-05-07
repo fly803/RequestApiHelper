@@ -158,12 +158,11 @@ public class MainActivity extends AppCompatActivity {
     
     private void appListinterfaceTest() {
         RequestAPI.getInstance().toSubscribe(((RequestApiInterface) (RequestAPI.getInstance().getApi(RequestApiInterface.class))).appListinterfaceTest(),
-                new ProgressSubscriber<BaseResponse<AppList.DataBean>>(new SubscriberOnNextListener<AppList.DataBean>() {
+                new ProgressSubscriber<BaseResponse<List<AppList.DataBean>>>(new SubscriberOnNextListener<List<AppList.DataBean>>() {
                     @Override
-                    public void onNext(AppList.DataBean myResponse) {
-//                        Snackbar.make(mRvDataIndex, "appListinterfaceTest:" + myResponse.getItems().get(0).getName(), Snackbar.LENGTH_SHORT).show();
+                    public void onNext(List<AppList.DataBean> myResponse) {
+                        Snackbar.make(mRvDataIndex, "onNext:" + myResponse.get(0).getItems().get(0).getName(), Snackbar.LENGTH_SHORT).show();
                     }
-
                     @Override
                     public void onSeverError(int code, String msg) {
                         

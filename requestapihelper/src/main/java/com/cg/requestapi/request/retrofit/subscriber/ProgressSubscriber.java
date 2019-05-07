@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.cg.requestapi.configs.BaseProjectConfig;
 import com.cg.requestapi.request.retrofit.exception.ExceptionEngine;
+import com.cg.requestapi.request.retrofit.exception.ServerException;
 import com.cg.requestapi.request.retrofit.interfaces.SubscriberOnNextListener;
 import com.cg.requestapi.request.retrofit.progress.ProgressCancelListener;
 import com.cg.requestapi.view.CommonLoading;
@@ -18,13 +19,13 @@ import io.reactivex.disposables.Disposable;
  * Created by sam on 16/3/10.
  */
 public class ProgressSubscriber<T> implements ProgressCancelListener, Observer<T> {
-    /*
-    Disposable,翻译成一次性的。是用来控制发送者和接受者之间的纽带的,默认为false,表示发送者和接受者直接的通信阀门关闭,可以正常通信,
-    在调用dispose()方法之后,阀门开启,会阻断发送者和接收者之间的通信,从而断开连接.
-     */
+  /*
+  Disposable,翻译成一次性的。是用来控制发送者和接受者之间的纽带的,默认为false,表示发送者和接受者直接的通信阀门关闭,可以正常通信,
+  在调用dispose()方法之后,阀门开启,会阻断发送者和接收者之间的通信,从而断开连接.
+   */
   private Disposable mDisposable;
   private SubscriberOnNextListener mSubscriberOnNextListener;
-//  private ProgressDialogHandler mProgressDialogHandler;
+  //  private ProgressDialogHandler mProgressDialogHandler;
   private Context context;
   private CommonLoading mCommonLoading;
 
@@ -36,7 +37,7 @@ public class ProgressSubscriber<T> implements ProgressCancelListener, Observer<T
 
   private void showProgressDialog() {
     if (mCommonLoading != null) {
-        mCommonLoading.showLoading();
+      mCommonLoading.showLoading();
     }
   }
 
@@ -52,9 +53,14 @@ public class ProgressSubscriber<T> implements ProgressCancelListener, Observer<T
    * 当发送了onError事件之后,发送者onError之后的事件依旧会继续发送,但是接收者当接收到onError之后就会停止接收事件了.
    */
   @Override public void onError(Throwable e) {
-      FancyToast.makeText(context,"返回值错误ProgressSubscriber onError:" + ExceptionEngine.handleException(e).getMessage(), 
-              FancyToast.LENGTH_LONG,FancyToast.ERROR,false).show();
+    FancyToast.makeText(context,
+        "返回值错误ProgressSubscriber onError:" + ExceptionEngine.handleException(e).getMessage(),
+        FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
     dismissProgressDialog();
+    if (mSubscriberOnNextListener != null) {
+      ServerException serverException = (ServerException) e;
+      mSubscriberOnNextListener.onSeverError(serverException.getCode(), serverException.getMsg());
+    }
   }
 
   /**
@@ -66,7 +72,7 @@ public class ProgressSubscriber<T> implements ProgressCancelListener, Observer<T
     if (!mDisposable.isDisposed()) {
       mDisposable.dispose();
     }
-//    Toast.makeText(context, "数据获取成功", Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(context, "数据获取成功", Toast.LENGTH_SHORT).show();
   }
 
   @Override public void onSubscribe(Disposable d) {
