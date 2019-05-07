@@ -58,16 +58,9 @@ public class ProgressSubscriber<T> implements ProgressCancelListener, Observer<T
   public void onError(Throwable e) { 
     dismissProgressDialog();
     ApiException apiException = ExceptionEngine.handleException(e);
-    if(!BaseProjectConfig.isServerExcepition(apiException.getCode())){
-        FancyToast.makeText(context,
-                "返回值错误ProgressSubscriber onError:" + ExceptionEngine.handleException(e).getMessage(),
-                FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-    }else {
-        if (mSubscriberOnNextListener != null) {
-            ServerException serverException = (ServerException) e;
-            mSubscriberOnNextListener.onSeverError(serverException.getCode(), serverException.getMsg());
-        }
-    }
+    FancyToast.makeText(context,
+              "返回值错误ProgressSubscriber onError:" + ExceptionEngine.handleException(e).getMessage(),
+              FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
   }
 
   /**

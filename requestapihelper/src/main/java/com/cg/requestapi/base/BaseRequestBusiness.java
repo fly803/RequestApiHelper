@@ -5,6 +5,7 @@ import android.util.Log;
 import com.cg.requestapi.configs.BaseProjectConfig;
 import com.cg.requestapi.request.retrofit.exception.ApiException;
 import com.cg.requestapi.request.retrofit.exception.ServerException;
+import com.cg.requestapi.request.retrofit.interfaces.SubscriberOnNextListener;
 import com.cg.requestapi.request.retrofit.subscriber.ProgressSubscriber;
 
 import io.reactivex.Observable;
@@ -23,7 +24,8 @@ import io.reactivex.schedulers.Schedulers;
  * @date 2018/3/18
  */
 
-public abstract class BaseRequestBusiness {
+public class BaseRequestBusiness {
+    private SubscriberOnNextListener mSubscriberOnNextListener;
     /**
      * 所以调研接口，统一调用这个方法
      * @param ob
@@ -49,18 +51,18 @@ public abstract class BaseRequestBusiness {
      * @param <T>
      * @return
      */
-  public static <T> ObservableTransformer<BaseResponse<T>, T> handleResult() {
+  public  <T> ObservableTransformer<BaseResponse<T>, T> handleResult() {
     return new ObservableTransformer<BaseResponse<T>, T>() {
       @Override public Observable<T> apply(Observable<BaseResponse<T>> tObservable) {
         return tObservable.flatMap(new Function<BaseResponse<T>, ObservableSource<T>>() {
           @Override public Observable<T> apply(BaseResponse<T> result) {
             //成功后交给界面处理
 //            return Observable.error(new ServerException(123,"错了"));
-            if (result.getErr_code() == BaseProjectConfig.successCode) {
+            if (result.getCode() == BaseProjectConfig.successCode) {
                 return createData(result.getData());
             } else {
-                //统一处理服务器返回值非正常结果
-                return Observable.error(new ServerException(result.getErr_code(),result.getMsg()));
+//                //统一处理服务器返回值非正常结果
+                return Observable.error(new ServerException(result.getCode(),result.getMessage()));
             }
           }
         })
@@ -81,7 +83,7 @@ public abstract class BaseRequestBusiness {
   /**
    * 创建成功的数据,观察者模式,这里产生事件,事件产生后发送给接受者
    */
-  private static <T> Observable createData(final T data) {
+  private  <T> Observable createData(final T data) {
     return Observable.create(new ObservableOnSubscribe<T>() {
       @Override public void subscribe(ObservableEmitter<T> e) throws Exception {
           e.onNext(data);

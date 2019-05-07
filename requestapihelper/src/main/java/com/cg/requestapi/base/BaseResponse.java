@@ -30,34 +30,15 @@ import java.util.List;
 public class BaseResponse<T> {
     private int code;
     private String message;
+    private String err_msg;
     private T data;
     private int dataType;
-    private String msg;
-    private int err_code;
-    private String err_msg;
     /**
      * 扩展字段
      * 0:data为对象
      * 1:data为集合
      * 2:date为空或者null字段
      */
-
-    public int getErr_code() {
-        return err_code;
-    }
-
-    public void setErr_code(int err_code) {
-        this.err_code = err_code;
-    }
-
-    public String getErr_msg() {
-        return err_msg;
-    }
-
-    public void setErr_msg(String err_msg) {
-        this.err_msg = err_msg;
-    }
-
     public T getData() {
         return data;
     }
@@ -82,16 +63,6 @@ public class BaseResponse<T> {
         this.message = message;
     }
 
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    
-
     public int getDataType() {
         return dataType;
     }
@@ -100,13 +71,20 @@ public class BaseResponse<T> {
         this.dataType = dataType;
     }
 
+    public String getErr_msg() {
+        return err_msg;
+    }
+
+    public void setErr_msg(String err_msg) {
+        this.err_msg = err_msg;
+    }
+
     @Override
     public String toString() {
         return "{" +
                 "data=" + data +
                 ", code=" + code +
                 ", message='" + message + '\'' +
-                ", msg='" + msg + '\'' +
                 ", dataType=" + dataType +
                 '}';
     }
@@ -116,7 +94,6 @@ public class BaseResponse<T> {
                 "data=" + data +
                 ", code=" + code +
                 ", message='" + message + '\'' +
-                ", msg='" + msg + '\'' +
                 ", dataType=" + dataType +
                 '}'; 
     }

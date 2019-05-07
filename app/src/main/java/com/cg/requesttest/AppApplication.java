@@ -79,7 +79,7 @@ public class AppApplication extends BaseApplication {
     private Map<Integer, String> getServerReturnCodeMap(){
         Map<Integer, String> map = new HashMap<Integer, String>();
         map.put(0, "消息100");
-        map.put(1, "消息101");
+        map.put(100, "消息101");
         map.put(102, "消息102");
         map.put(103, "消息101");
         map.put(104, "消息102");

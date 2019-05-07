@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.cg.requestapi.base.BaseResponse;
 import com.cg.requestapi.request.RequestAPI;
+import com.cg.requestapi.request.retrofit.exception.ServerException;
 import com.cg.requestapi.request.retrofit.interfaces.SubscriberOnNextListener;
 import com.cg.requestapi.request.retrofit.subscriber.ProgressSubscriber;
 import com.cg.requesttest.adapter.MainInterfaceListAdapter;
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
         MainInterfaceItem mainInterfaceItem5 = new MainInterfaceItem();
         mainInterfaceItem5.setName("App推荐列表");
-        mainInterfaceItem5.setMethod("appRecommendListinterfaceTest");
+        mainInterfaceItem5.setMethod("appListinterfaceTest");
         mainInterfaceItem5.setBackgroundColor(BG_COLORS[14]);
         listMainInterfaceItem.add(mainInterfaceItem5);
 
@@ -159,9 +160,10 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onSeverError(int code, String msg) {
+                    public void onSeverError(ServerException s) {
                         
                     }
+
 
                 }, MainActivity.this));
     }
@@ -174,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                         Snackbar.make(mRvDataIndex, "onNext:" + myResponse.get(0).getItems().get(0).getName(), Snackbar.LENGTH_SHORT).show();
                     }
                     @Override
-                    public void onSeverError(int code, String msg) {
+                    public void onSeverError(ServerException s) {
 
                     }
                 }, MainActivity.this));
@@ -188,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                         Snackbar.make(mRvDataIndex, "onNext:" + myResponse.get(0).getAppName(), Snackbar.LENGTH_SHORT).show();
                     }
                     @Override
-                    public void onSeverError(int code, String msg) {
+                    public void onSeverError(ServerException s) {
 
                     }
                 }, MainActivity.this));
