@@ -20,6 +20,7 @@ import com.cg.requesttest.api.AppConfig;
 import com.cg.requesttest.api.RequestApiInterface;
 import com.cg.requesttest.data.MainInterfaceItem;
 import com.cg.requesttest.data.response.AppList;
+import com.cg.requesttest.data.response.AppRecommend;
 import com.cg.requesttest.data.response.MyResponse;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -113,8 +114,14 @@ public class MainActivity extends AppCompatActivity {
         mainInterfaceItem4.setBackgroundColor(BG_COLORS[13]);
         listMainInterfaceItem.add(mainInterfaceItem4);
 
+        MainInterfaceItem mainInterfaceItem5 = new MainInterfaceItem();
+        mainInterfaceItem5.setName("App推荐列表");
+        mainInterfaceItem5.setMethod("appRecommendListinterfaceTest");
+        mainInterfaceItem5.setBackgroundColor(BG_COLORS[14]);
+        listMainInterfaceItem.add(mainInterfaceItem5);
 
-        for (int i = 14; i < 18; i++) {
+
+        for (int i = 15; i < 18; i++) {
             MainInterfaceItem mainInterfaceItem = new MainInterfaceItem();
             mainInterfaceItem.setName("待添加操作" + i);
             mainInterfaceItem.setMethod("");
@@ -128,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void runMethod(String methodName) {
         switch (methodName) {
+            case "appRecommendListinterfaceTest":
+                appRecommendListinterfaceTest();
+                break;
             case "appListinterfaceTest":
                 appListinterfaceTest();
                 break;
@@ -165,7 +175,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onSeverError(int code, String msg) {
-                        
+
+                    }
+                }, MainActivity.this));
+    }
+
+    private void appRecommendListinterfaceTest() {
+        RequestAPI.getInstance().toSubscribe(((RequestApiInterface) (RequestAPI.getInstance().getApi(RequestApiInterface.class))).appRecommendListinterfaceTest(10,"xxoo"),
+                new ProgressSubscriber<BaseResponse<List<AppRecommend.DataBean>>>(new SubscriberOnNextListener<List<AppRecommend.DataBean>>() {
+                    @Override
+                    public void onNext(List<AppRecommend.DataBean> myResponse) {
+                        Snackbar.make(mRvDataIndex, "onNext:" + myResponse.get(0).getAppName(), Snackbar.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onSeverError(int code, String msg) {
+
                     }
                 }, MainActivity.this));
     }

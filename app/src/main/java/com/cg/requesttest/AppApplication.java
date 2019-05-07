@@ -97,6 +97,7 @@ public class AppApplication extends BaseApplication {
      */
     private Map<String, String> getBaseURLMap(){
         Map<String, String> map = new HashMap<String, String>();
+        map.put("wetolink", "https://recommend.wetolink.com/");
         map.put("douban", "https://api.douban.com/");
         map.put("gank", "https://gank.io/");
         return map;

@@ -1,8 +1,10 @@
 package com.cg.requestapi.request.retrofit.subscriber;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.cg.requestapi.configs.BaseProjectConfig;
+import com.cg.requestapi.request.retrofit.exception.ApiException;
 import com.cg.requestapi.request.retrofit.exception.ExceptionEngine;
 import com.cg.requestapi.request.retrofit.exception.ServerException;
 import com.cg.requestapi.request.retrofit.interfaces.SubscriberOnNextListener;
@@ -52,14 +54,19 @@ public class ProgressSubscriber<T> implements ProgressCancelListener, Observer<T
    * 隐藏ProgressDialog
    * 当发送了onError事件之后,发送者onError之后的事件依旧会继续发送,但是接收者当接收到onError之后就会停止接收事件了.
    */
-  @Override public void onError(Throwable e) {
-    FancyToast.makeText(context,
-        "返回值错误ProgressSubscriber onError:" + ExceptionEngine.handleException(e).getMessage(),
-        FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+  @Override
+  public void onError(Throwable e) { 
     dismissProgressDialog();
-    if (mSubscriberOnNextListener != null) {
-      ServerException serverException = (ServerException) e;
-      mSubscriberOnNextListener.onSeverError(serverException.getCode(), serverException.getMsg());
+    ApiException apiException = ExceptionEngine.handleException(e);
+    if(!BaseProjectConfig.isServerExcepition(apiException.getCode())){
+        FancyToast.makeText(context,
+                "返回值错误ProgressSubscriber onError:" + ExceptionEngine.handleException(e).getMessage(),
+                FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+    }else {
+        if (mSubscriberOnNextListener != null) {
+            ServerException serverException = (ServerException) e;
+            mSubscriberOnNextListener.onSeverError(serverException.getCode(), serverException.getMsg());
+        }
     }
   }
 

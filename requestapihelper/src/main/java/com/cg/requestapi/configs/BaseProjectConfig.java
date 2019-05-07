@@ -70,4 +70,8 @@ public class BaseProjectConfig {
         }
         return reason;
     }
+    
+    public static boolean isServerExcepition(int code){
+        return mapServerReturnCode.containsKey(code);
+    }
 }
