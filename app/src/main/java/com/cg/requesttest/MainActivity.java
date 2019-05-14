@@ -180,10 +180,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void seachApp() {
         RequestAPI.getInstance().toSubscribe(((RequestApiInterface) (RequestAPI.getInstance().getApi(RequestApiInterface.class))).seachApp("sfagagg","百度"),
-                new ProgressSubscriber<BaseResponse<List<SeachResult.DataBean>>>(new SubscriberOnNextListener<List<SeachResult.DataBean>>() {
+                new ProgressSubscriber<BaseResponse<AppList.DataBean>>(new SubscriberOnNextListener<AppList.DataBean>() {
                     @Override
-                    public void onNext(List<SeachResult.DataBean> myResponse) {
-                        Snackbar.make(mRvDataIndex, "onNext:" + myResponse.get(0).getItems().get(0).getName(), Snackbar.LENGTH_SHORT).show();
+                    public void onNext(AppList.DataBean myResponse) {
+                        Snackbar.make(mRvDataIndex, "onNext:" + myResponse.getItems().get(0).getName(), Snackbar.LENGTH_SHORT).show();
                     }
                     @Override
                     public void onSeverError(ServerException s) {

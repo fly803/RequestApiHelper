@@ -99,7 +99,7 @@ public interface RequestApiInterface {
     Observable<BaseResponse<List<AppList.DataBean>>> appListinterfaceTest();
 
     @GET("app/box/search")
-    Observable<BaseResponse<List<SeachResult.DataBean>>> seachApp(@Query("device_id") String device_id, @Query("words") String words);
+    Observable<BaseResponse<AppList.DataBean>> seachApp(@Query("device_id") String device_id, @Query("words") String words);
 
     @Headers({"baseurl:wetolink"})
     @GET("api/v2/app_recommend/pull")
