@@ -6,6 +6,7 @@ import com.cg.requesttest.data.response.AppRecommend;
 import com.cg.requesttest.data.response.BookSearchResponse;
 import com.cg.requesttest.data.response.IpResult;
 import com.cg.requesttest.data.response.MyResponse;
+import com.cg.requesttest.data.response.SeachResult;
 
 import io.reactivex.Observable;
 
@@ -96,6 +97,9 @@ public interface RequestApiInterface {
 
     @GET("app/box/list")
     Observable<BaseResponse<List<AppList.DataBean>>> appListinterfaceTest();
+
+    @GET("app/box/search")
+    Observable<BaseResponse<List<SeachResult.DataBean>>> seachApp(@Query("device_id") String device_id, @Query("words") String words);
 
     @Headers({"baseurl:wetolink"})
     @GET("api/v2/app_recommend/pull")

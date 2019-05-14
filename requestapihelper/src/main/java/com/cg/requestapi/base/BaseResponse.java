@@ -30,9 +30,20 @@ import java.util.List;
 public class BaseResponse<T> {
     private int code;
     private String message;
+    private int err_code;
     private String err_msg;
     private T data;
     private int dataType;
+
+    public int getErr_code() {
+        return err_code;
+    }
+
+    public void setErr_code(int err_code) {
+        this.err_code = err_code;
+    }
+
+    
     /**
      * 扩展字段
      * 0:data为对象

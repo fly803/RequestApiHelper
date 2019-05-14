@@ -23,6 +23,7 @@ import com.cg.requesttest.data.MainInterfaceItem;
 import com.cg.requesttest.data.response.AppList;
 import com.cg.requesttest.data.response.AppRecommend;
 import com.cg.requesttest.data.response.MyResponse;
+import com.cg.requesttest.data.response.SeachResult;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -121,8 +122,14 @@ public class MainActivity extends AppCompatActivity {
         mainInterfaceItem5.setBackgroundColor(BG_COLORS[14]);
         listMainInterfaceItem.add(mainInterfaceItem5);
 
+        MainInterfaceItem mainInterfaceItem6 = new MainInterfaceItem();
+        mainInterfaceItem6.setName("App搜索");
+        mainInterfaceItem6.setMethod("seachApp");
+        mainInterfaceItem6.setBackgroundColor(BG_COLORS[15]);
+        listMainInterfaceItem.add(mainInterfaceItem6);
+        
 
-        for (int i = 15; i < 18; i++) {
+        for (int i = 16; i < 18; i++) {
             MainInterfaceItem mainInterfaceItem = new MainInterfaceItem();
             mainInterfaceItem.setName("待添加操作" + i);
             mainInterfaceItem.setMethod("");
@@ -136,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void runMethod(String methodName) {
         switch (methodName) {
+            case "seachApp":
+                seachApp();
+                break;
             case "appRecommendListinterfaceTest":
                 appRecommendListinterfaceTest();
                 break;
@@ -165,6 +175,20 @@ public class MainActivity extends AppCompatActivity {
                     }
 
 
+                }, MainActivity.this));
+    }
+
+    private void seachApp() {
+        RequestAPI.getInstance().toSubscribe(((RequestApiInterface) (RequestAPI.getInstance().getApi(RequestApiInterface.class))).seachApp("sfagagg","百度"),
+                new ProgressSubscriber<BaseResponse<List<SeachResult.DataBean>>>(new SubscriberOnNextListener<List<SeachResult.DataBean>>() {
+                    @Override
+                    public void onNext(List<SeachResult.DataBean> myResponse) {
+                        Snackbar.make(mRvDataIndex, "onNext:" + myResponse.get(0).getItems().get(0).getName(), Snackbar.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onSeverError(ServerException s) {
+
+                    }
                 }, MainActivity.this));
     }
     
