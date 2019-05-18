@@ -7,5 +7,6 @@ import com.cg.requestapi.request.retrofit.exception.ServerException;
  */
 public interface SubscriberOnNextListener<T> {
     void onNext(T t);
-    void onSeverError(ServerException s);
+
+    void onSeverError(int code, String msg);
 }

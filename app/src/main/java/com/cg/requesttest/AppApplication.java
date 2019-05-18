@@ -52,7 +52,7 @@ public class AppApplication extends BaseApplication {
         final boolean isBaseURLInterceptorOpen = true;
         final boolean isHeaderInterceptorOpen = false;
         final String baseURL = "http://test.hfsr.yunyouduobao.com/";
-        final int successCode = 0;
+        final int successCode = 1;
         final String tag = AppConfig.TAG;
         Map<Integer, String> mapServerReturnCodeMap = getServerReturnCodeMap();
         Map<String, String> mapBaseURL = getBaseURLMap();

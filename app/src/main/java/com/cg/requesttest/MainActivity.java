@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onSeverError(ServerException s) {
+                    public void onSeverError(int code, String msg) {
                         
                     }
 
@@ -185,11 +185,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onNext(AppList.DataBean myResponse) {
                         Snackbar.make(mRvDataIndex, "onNext:" + myResponse.getItems().get(0).getName(), Snackbar.LENGTH_SHORT).show();
                     }
-                    @Override
-                    public void onSeverError(ServerException s) {
 
+                    @Override
+                    public void onSeverError(int code, String msg) {
+                        
                     }
-                }, MainActivity.this));
+
+                }, AppApplication.getInstance().getApplicationContext()));
     }
     
     private void appListinterfaceTest() {
@@ -199,10 +201,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onNext(List<AppList.DataBean> myResponse) {
                         Snackbar.make(mRvDataIndex, "onNext:" + myResponse.get(0).getItems().get(0).getName(), Snackbar.LENGTH_SHORT).show();
                     }
-                    @Override
-                    public void onSeverError(ServerException s) {
 
+                    @Override
+                    public void onSeverError(int code, String msg) {
+                        
                     }
+
                 }, MainActivity.this));
     }
 
@@ -213,10 +217,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onNext(List<AppRecommend.DataBean> myResponse) {
                         Snackbar.make(mRvDataIndex, "onNext:" + myResponse.get(0).getAppName(), Snackbar.LENGTH_SHORT).show();
                     }
-                    @Override
-                    public void onSeverError(ServerException s) {
 
+                    @Override
+                    public void onSeverError(int code, String msg) {
+                        
                     }
+
                 }, MainActivity.this));
     }
 
