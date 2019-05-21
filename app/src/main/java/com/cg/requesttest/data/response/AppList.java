@@ -121,6 +121,11 @@ public class AppList {
             public void setName(String name) {
                 this.name = name;
             }
+
+            @Override
+            public String toString() {
+                return "ItemsBean{" + "appid='" + appid + '\'' + ", downloadurl='" + downloadurl + '\'' + ", iconurl='" + iconurl + '\'' + ", name='" + name + '\'' + '}';
+            }
         }
     }
 }

@@ -104,4 +104,7 @@ public interface RequestApiInterface {
     @Headers({"baseurl:wetolink"})
     @GET("api/v2/app_recommend/pull")
     Observable<BaseResponse<List<AppRecommend.DataBean>>> appRecommendListinterfaceTest(@Query("limit") int limit, @Query("package_name") String package_name);
+
+    @GET("app/box/list")
+    Observable<BaseResponse<List<AppList.DataBean>>> getApplist();
 }

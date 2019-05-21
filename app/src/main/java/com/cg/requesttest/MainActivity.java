@@ -1,9 +1,12 @@
 package com.cg.requesttest;
 
 import android.annotation.TargetApi;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +27,7 @@ import com.cg.requesttest.data.response.AppList;
 import com.cg.requesttest.data.response.AppRecommend;
 import com.cg.requesttest.data.response.MyResponse;
 import com.cg.requesttest.data.response.SeachResult;
+import com.cg.requesttest.data.viewmodel.ApplistViewModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -38,6 +42,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     RecyclerView mRvDataIndex;
     List<MainInterfaceItem> listMainInterfaceItem = new ArrayList<>();
+    ApplistViewModel mApplistViewModel;
 
     @ColorInt
     private static final int[] BG_COLORS = {
@@ -57,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mApplistViewModel = ViewModelProviders.of(this).get(ApplistViewModel.class);
         initView();
         initMainInterfaceAdapter();
     }
@@ -127,9 +133,14 @@ public class MainActivity extends AppCompatActivity {
         mainInterfaceItem6.setMethod("seachApp");
         mainInterfaceItem6.setBackgroundColor(BG_COLORS[15]);
         listMainInterfaceItem.add(mainInterfaceItem6);
-        
 
-        for (int i = 16; i < 18; i++) {
+        MainInterfaceItem mainInterfaceItem7 = new MainInterfaceItem();
+        mainInterfaceItem7.setName("liveData得到applist");
+        mainInterfaceItem7.setMethod("liveDataApplist");
+        mainInterfaceItem7.setBackgroundColor(BG_COLORS[16]);
+        listMainInterfaceItem.add(mainInterfaceItem7);
+
+        for (int i = 17; i < 18; i++) {
             MainInterfaceItem mainInterfaceItem = new MainInterfaceItem();
             mainInterfaceItem.setName("待添加操作" + i);
             mainInterfaceItem.setMethod("");
@@ -143,6 +154,9 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void runMethod(String methodName) {
         switch (methodName) {
+            case "liveDataApplist":
+//                liveDataApplist();
+                break;
             case "seachApp":
                 seachApp();
                 break;
@@ -161,6 +175,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void liveDataApplist() {
+        mApplistViewModel.getLiveAppList().observe(this, new Observer<List<AppList.DataBean>>() {
+            @Override
+            public void onChanged(@Nullable List<AppList.DataBean> appListData) {
+                if (appListData != null) {
+                    Log.d("cg", "onChanged: "+appListData.get(0).getItems().get(0).toString());
+                }
+            }
+        });
+    }
+    
     private void interfaceTest() {
         RequestAPI.getInstance().toSubscribe(((RequestApiInterface) (RequestAPI.getInstance().getApi(RequestApiInterface.class))).psalms(3),
                 new ProgressSubscriber<BaseResponse<MyResponse.DataBean>>(new SubscriberOnNextListener<MyResponse.DataBean>() {
