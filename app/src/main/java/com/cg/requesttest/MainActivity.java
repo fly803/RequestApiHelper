@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mApplistViewModel = ViewModelProviders.of(this).get(ApplistViewModel.class);
+//        mApplistViewModel = ViewModelProviders.of(this).get(ApplistViewModel.class);
         initView();
         initMainInterfaceAdapter();
     }

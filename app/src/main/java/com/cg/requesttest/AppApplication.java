@@ -51,7 +51,8 @@ public class AppApplication extends BaseApplication {
         final boolean isNetRequestInterceptorOpen = true;
         final boolean isBaseURLInterceptorOpen = true;
         final boolean isHeaderInterceptorOpen = false;
-        final String baseURL = "http://test.hfsr.yunyouduobao.com/";
+        final String baseURL = "http://116.62.60.235/";
+//        final String baseURL = "http://test.hfsr.yunyouduobao.com/";
         final int successCode = 1;
         final String tag = AppConfig.TAG;
         Map<Integer, String> mapServerReturnCodeMap = getServerReturnCodeMap();
