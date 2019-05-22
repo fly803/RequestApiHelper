@@ -1,7 +1,11 @@
 package com.cg.requestapi.request.retrofit.subscriber;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
+import com.cg.requestapi.BaseApplication;
 import com.cg.requestapi.configs.BaseProjectConfig;
 import com.cg.requestapi.request.retrofit.exception.ExceptionEngine;
 import com.cg.requestapi.request.retrofit.exception.ServerException;
@@ -9,6 +13,9 @@ import com.cg.requestapi.request.retrofit.interfaces.SubscriberOnNextListener;
 import com.cg.requestapi.request.retrofit.progress.ProgressCancelListener;
 import com.cg.requestapi.view.CommonLoading;
 import com.shashank.sony.fancytoastlib.FancyToast;
+
+import org.greenrobot.eventbus.EventBus;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -23,6 +30,7 @@ public class ProgressSubscriber<T> implements ProgressCancelListener, Observer<T
     Disposable,翻译成一次性的。是用来控制发送者和接受者之间的纽带的,默认为false,表示发送者和接受者直接的通信阀门关闭,可以正常通信,
     在调用dispose()方法之后,阀门开启,会阻断发送者和接收者之间的通信,从而断开连接.
      */
+    private static final String TAG = "ProgressSubscriber";
     private Disposable mDisposable;
     private SubscriberOnNextListener mSubscriberOnNextListener;
     //  private ProgressDialogHandler mProgressDialogHandler;
@@ -32,18 +40,32 @@ public class ProgressSubscriber<T> implements ProgressCancelListener, Observer<T
     public ProgressSubscriber(SubscriberOnNextListener mSubscriberOnNextListener, Context context) {
         this.mSubscriberOnNextListener = mSubscriberOnNextListener;
         this.context = context;
-        mCommonLoading = new CommonLoading(context, BaseProjectConfig.loadingMessage);
+        if (context instanceof Activity){
+            mCommonLoading = new CommonLoading(context, BaseProjectConfig.loadingMessage);
+        }else{
+            Log.i(TAG, "ProgressSubscriber: 不能在这里显示dialog");
+            EventBus.getDefault().post(new DialogEvent(true)); // 通知页面显示
+        }
+    }
+    public ProgressSubscriber(SubscriberOnNextListener mSubscriberOnNextListener, Context context ,Activity activity) {
+        this.mSubscriberOnNextListener = mSubscriberOnNextListener;
+        this.context = context;
+        mCommonLoading = new CommonLoading(activity, BaseProjectConfig.loadingMessage);
     }
 
     private void showProgressDialog() {
         if (mCommonLoading != null) {
             mCommonLoading.showLoading();
+        }else{
+            mSubscriberOnNextListener.showDialog();
         }
     }
 
     private void dismissProgressDialog() {
         if (mCommonLoading != null) {
             mCommonLoading.closeLoading();
+        }else{
+            mSubscriberOnNextListener.dismissDialog();
         }
     }
 

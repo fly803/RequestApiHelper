@@ -9,4 +9,8 @@ public interface SubscriberOnNextListener<T> {
     void onNext(T t);
 
     void onSeverError(int code, String msg);
+
+    void showDialog();
+
+    void dismissDialog();
 }

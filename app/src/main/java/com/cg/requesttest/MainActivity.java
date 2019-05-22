@@ -15,10 +15,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.cg.requestapi.base.BaseResponse;
+import com.cg.requestapi.configs.BaseProjectConfig;
 import com.cg.requestapi.request.RequestAPI;
 import com.cg.requestapi.request.retrofit.exception.ServerException;
 import com.cg.requestapi.request.retrofit.interfaces.SubscriberOnNextListener;
 import com.cg.requestapi.request.retrofit.subscriber.ProgressSubscriber;
+import com.cg.requestapi.view.CommonLoading;
 import com.cg.requesttest.adapter.MainInterfaceListAdapter;
 import com.cg.requesttest.api.AppConfig;
 import com.cg.requesttest.api.RequestApiInterface;
@@ -29,6 +31,9 @@ import com.cg.requesttest.data.response.MyResponse;
 import com.cg.requesttest.data.response.SeachResult;
 import com.cg.requesttest.data.viewmodel.ApplistViewModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
     @ColorInt
     private static final int[] BG_COLORS = {
-            0xfff25f8c, 0xfffb7f77, 0xfffcc02c, 0xff2fcc87, 
-            0xff3dc2c7, 0xff47b2f8, 0xffb28bdc, 0xff948079,
             0xfff25f8c, 0xfffb7f77, 0xfffcc02c, 0xff2fcc87,
             0xff3dc2c7, 0xff47b2f8, 0xffb28bdc, 0xff948079,
             0xfff25f8c, 0xfffb7f77, 0xfffcc02c, 0xff2fcc87,
@@ -56,15 +59,24 @@ public class MainActivity extends AppCompatActivity {
             0xff3dc2c7, 0xff47b2f8, 0xffb28bdc, 0xff948079,
             0xfff25f8c, 0xfffb7f77, 0xfffcc02c, 0xff2fcc87,
             0xff3dc2c7, 0xff47b2f8, 0xffb28bdc, 0xff948079,
-            };
+            0xfff25f8c, 0xfffb7f77, 0xfffcc02c, 0xff2fcc87,
+            0xff3dc2c7, 0xff47b2f8, 0xffb28bdc, 0xff948079,
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_main);
-//        mApplistViewModel = ViewModelProviders.of(this).get(ApplistViewModel.class);
+        mApplistViewModel = ViewModelProviders.of(this).get(ApplistViewModel.class);
         initView();
         initMainInterfaceAdapter();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initView() {
@@ -144,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
             MainInterfaceItem mainInterfaceItem = new MainInterfaceItem();
             mainInterfaceItem.setName("待添加操作" + i);
             mainInterfaceItem.setMethod("");
-//            mainInterfaceItem.setBackgroundColor(BG_COLORS[0]);
+            //            mainInterfaceItem.setBackgroundColor(BG_COLORS[0]);
             listMainInterfaceItem.add(mainInterfaceItem);
         }
 
@@ -155,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
     private void runMethod(String methodName) {
         switch (methodName) {
             case "liveDataApplist":
-//                liveDataApplist();
+                //                liveDataApplist();
                 break;
             case "seachApp":
                 seachApp();
@@ -180,12 +192,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<AppList.DataBean> appListData) {
                 if (appListData != null) {
-                    
+                    Log.d("cg", "onChanged: "+appListData.get(0).getItems().get(0).toString());
                 }
             }
         });
     }
-    
+
     private void interfaceTest() {
         RequestAPI.getInstance().toSubscribe(((RequestApiInterface) (RequestAPI.getInstance().getApi(RequestApiInterface.class))).psalms(3),
                 new ProgressSubscriber<BaseResponse<MyResponse.DataBean>>(new SubscriberOnNextListener<MyResponse.DataBean>() {
@@ -196,7 +208,17 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSeverError(int code, String msg) {
-                        
+
+                    }
+
+                    @Override
+                    public void showDialog() {
+
+                    }
+
+                    @Override
+                    public void dismissDialog() {
+
                     }
 
 
@@ -213,12 +235,22 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSeverError(int code, String msg) {
-                        
+
                     }
 
-                }, AppApplication.getInstance().getApplicationContext()));
+                    @Override
+                    public void showDialog() {
+
+                    }
+
+                    @Override
+                    public void dismissDialog() {
+
+                    }
+
+                }, AppApplication.getInstance().getApplicationContext(),MainActivity.this));
     }
-    
+
     private void appListinterfaceTest() {
         RequestAPI.getInstance().toSubscribe(((RequestApiInterface) (RequestAPI.getInstance().getApi(RequestApiInterface.class))).appListinterfaceTest(),
                 new ProgressSubscriber<BaseResponse<List<AppList.DataBean>>>(new SubscriberOnNextListener<List<AppList.DataBean>>() {
@@ -229,7 +261,17 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSeverError(int code, String msg) {
-                        
+
+                    }
+
+                    @Override
+                    public void showDialog() {
+
+                    }
+
+                    @Override
+                    public void dismissDialog() {
+
                     }
 
                 }, MainActivity.this));
@@ -245,10 +287,32 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSeverError(int code, String msg) {
-                        
+
+                    }
+
+                    @Override
+                    public void showDialog() {
+
+                    }
+
+                    @Override
+                    public void dismissDialog() {
+
                     }
 
                 }, MainActivity.this));
+    }
+
+    @Subscribe
+    public void onEvent(DialogEvent event) {
+        //处理逻辑
+        Log.i("ccc", "onEvent:" + event.needShow);
+        CommonLoading commonLoading = new CommonLoading(this, BaseProjectConfig.loadingMessage);
+        if (event.needShow){
+            commonLoading.showLoading();
+        }else{
+            commonLoading.closeLoading();
+        }
     }
 
 }
