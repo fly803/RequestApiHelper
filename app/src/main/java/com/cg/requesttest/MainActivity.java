@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<AppList.DataBean> appListData) {
                 if (appListData != null) {
-                    Log.d("cg", "onChanged: "+appListData.get(0).getItems().get(0).toString());
+                    
                 }
             }
         });

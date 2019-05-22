@@ -53,7 +53,7 @@ public class AppApplication extends BaseApplication {
         final boolean isHeaderInterceptorOpen = false;
         final String baseURL = "http://116.62.60.235/";
 //        final String baseURL = "http://test.hfsr.yunyouduobao.com/";
-        final int successCode = 1;
+        final int successCode = 0;
         final String tag = AppConfig.TAG;
         Map<Integer, String> mapServerReturnCodeMap = getServerReturnCodeMap();
         Map<String, String> mapBaseURL = getBaseURLMap();
@@ -79,7 +79,7 @@ public class AppApplication extends BaseApplication {
      */ 
     private Map<Integer, String> getServerReturnCodeMap(){
         Map<Integer, String> map = new HashMap<Integer, String>();
-        map.put(0, "消息100");
+        map.put(99, "消息100");
         map.put(100, "消息101");
         map.put(102, "消息102");
         map.put(103, "消息101");
