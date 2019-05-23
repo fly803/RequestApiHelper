@@ -6,6 +6,9 @@ import com.cg.requestapi.configs.BaseProjectConfig;
 import com.cg.requestapi.request.retrofit.factory.MyGsonConverterFactory;
 import com.cg.requestapi.request.retrofit.interceptor.BaseUrlInterceptor;
 import com.cg.requestapi.request.retrofit.interceptor.HeaderInterceptor;
+//import com.cg.requestapi.utils.HttpsUtils;
+import com.cg.requestapi.request.ssl.HttpsUtils;
+import com.cg.requestapi.request.ssl.MyHttpsUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -95,11 +98,14 @@ public class RetrofitRequestManager {
          4、BODY
          请求/响应行 + 头 + 体 
          */
-        
+        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
         final OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(3, TimeUnit.SECONDS);
         builder.readTimeout(5, TimeUnit.SECONDS);
         builder.writeTimeout(3, TimeUnit.SECONDS);
+//        builder.sslSocketFactory(sslParams.sSLSocketFactory,sslParams.trustManager);
+        builder.sslSocketFactory(MyHttpsUtils.createSSLSocketFactory(), MyHttpsUtils.mMyTrustManager)
+                .hostnameVerifier(new MyHttpsUtils.TrustAllHostnameVerifier());
         //错误重连
         builder.retryOnConnectionFailure(true);
         //新建log拦截器
