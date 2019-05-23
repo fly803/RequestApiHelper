@@ -51,6 +51,7 @@ public class AppListRepository {
                 new ProgressSubscriber<BaseResponse<List<AppList.DataBean>>>(new SubscriberOnNextListener<List<AppList.DataBean>>() {
                     @Override
                     public void onNext(List<AppList.DataBean> myResponse) {
+                        Log.d("cg", "AppListRepository getAppList onNext: "+myResponse.get(0).getItems().get(0).toString());
                         liveAppList.setValue(myResponse);
                     }
 

@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
     private void runMethod(String methodName) {
         switch (methodName) {
             case "liveDataApplist":
-//                liveDataApplist();
+                liveDataApplist();
                 break;
             case "seachApp":
                 seachApp();

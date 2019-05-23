@@ -108,6 +108,7 @@ public interface RequestApiInterface {
     @GET("api/v2/app_recommend/pull")
     Observable<BaseResponse<List<AppRecommend.DataBean>>> appRecommendListinterfaceTest(@Query("limit") int limit, @Query("package_name") String package_name);
 
+    @Headers({"baseurl:hfsr"})
     @GET("app/box/list")
     Observable<BaseResponse<List<AppList.DataBean>>> getApplist();
 }
