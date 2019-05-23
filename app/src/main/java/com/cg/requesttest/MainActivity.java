@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     @ColorInt
     private static final int[] BG_COLORS = {
-            0xfff25f8c, 0xfffb7f77, 0xfffcc02c, 0xff2fcc87,
+            0xfff25f8c, 0xfffb7f77, 0xfffcc02c, 0xff2fcc87, 
             0xff3dc2c7, 0xff47b2f8, 0xffb28bdc, 0xff948079,
             0xfff25f8c, 0xfffb7f77, 0xfffcc02c, 0xff2fcc87,
             0xff3dc2c7, 0xff47b2f8, 0xffb28bdc, 0xff948079,
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             0xff3dc2c7, 0xff47b2f8, 0xffb28bdc, 0xff948079,
             0xfff25f8c, 0xfffb7f77, 0xfffcc02c, 0xff2fcc87,
             0xff3dc2c7, 0xff47b2f8, 0xffb28bdc, 0xff948079,
-    };
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,12 +151,18 @@ public class MainActivity extends AppCompatActivity {
         mainInterfaceItem7.setMethod("liveDataApplist");
         mainInterfaceItem7.setBackgroundColor(BG_COLORS[16]);
         listMainInterfaceItem.add(mainInterfaceItem7);
+        
+        MainInterfaceItem mainInterfaceItem8 = new MainInterfaceItem();
+        mainInterfaceItem8.setName("软件列表测试");
+        mainInterfaceItem8.setMethod("appRecommendListinterfaceTest");
+        mainInterfaceItem8.setBackgroundColor(BG_COLORS[17]);
+        listMainInterfaceItem.add(mainInterfaceItem8);
 
-        for (int i = 17; i < 18; i++) {
+        for (int i = 27; i < 38; i++) {
             MainInterfaceItem mainInterfaceItem = new MainInterfaceItem();
             mainInterfaceItem.setName("待添加操作" + i);
             mainInterfaceItem.setMethod("");
-            //            mainInterfaceItem.setBackgroundColor(BG_COLORS[0]);
+//            mainInterfaceItem.setBackgroundColor(BG_COLORS[0]);
             listMainInterfaceItem.add(mainInterfaceItem);
         }
 
@@ -167,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
     private void runMethod(String methodName) {
         switch (methodName) {
             case "liveDataApplist":
-                //                liveDataApplist();
+//                liveDataApplist();
                 break;
             case "seachApp":
                 seachApp();
@@ -197,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    
     private void interfaceTest() {
         RequestAPI.getInstance().toSubscribe(((RequestApiInterface) (RequestAPI.getInstance().getApi(RequestApiInterface.class))).psalms(3),
                 new ProgressSubscriber<BaseResponse<MyResponse.DataBean>>(new SubscriberOnNextListener<MyResponse.DataBean>() {
@@ -208,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSeverError(int code, String msg) {
-
+                        
                     }
 
                     @Override
@@ -235,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSeverError(int code, String msg) {
-
+                        
                     }
 
                     @Override
@@ -250,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }, AppApplication.getInstance().getApplicationContext(),MainActivity.this));
     }
-
+    
     private void appListinterfaceTest() {
         RequestAPI.getInstance().toSubscribe(((RequestApiInterface) (RequestAPI.getInstance().getApi(RequestApiInterface.class))).appListinterfaceTest(),
                 new ProgressSubscriber<BaseResponse<List<AppList.DataBean>>>(new SubscriberOnNextListener<List<AppList.DataBean>>() {
@@ -261,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSeverError(int code, String msg) {
-
+                        
                     }
 
                     @Override
@@ -282,12 +288,13 @@ public class MainActivity extends AppCompatActivity {
                 new ProgressSubscriber<BaseResponse<List<AppRecommend.DataBean>>>(new SubscriberOnNextListener<List<AppRecommend.DataBean>>() {
                     @Override
                     public void onNext(List<AppRecommend.DataBean> myResponse) {
+                        Log.d("cg", " appRecommendListinterfaceTest onNext: "+myResponse.get(0).getAppName());
                         Snackbar.make(mRvDataIndex, "onNext:" + myResponse.get(0).getAppName(), Snackbar.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onSeverError(int code, String msg) {
-
+                        
                     }
 
                     @Override

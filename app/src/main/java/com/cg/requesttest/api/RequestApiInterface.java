@@ -92,12 +92,15 @@ public interface RequestApiInterface {
      * @date 2019/3/21
      * @version 1.0
      */
+    @Headers({"baseurl:cg"})
     @GET("test/cg")
     Observable<BaseResponse<MyResponse.DataBean>> psalms(@Query("param") int type);
 
+    @Headers({"baseurl:hfsr"})
     @GET("app/box/list")
     Observable<BaseResponse<List<AppList.DataBean>>> appListinterfaceTest();
 
+    @Headers({"baseurl:hfsr"})
     @GET("app/box/search")
     Observable<BaseResponse<AppList.DataBean>> seachApp(@Query("device_id") String device_id, @Query("words") String words);
 

@@ -15,7 +15,8 @@ import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 
-import static okhttp3.internal.Util.UTF_8;
+import static java.nio.charset.StandardCharsets.UTF_8;
+//import static okhttp3.internal.Util.UTF_8;
 
 /**
  * https://www.jianshu.com/p/5b8b1062866b

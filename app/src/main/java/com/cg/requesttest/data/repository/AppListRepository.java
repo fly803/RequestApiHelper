@@ -34,6 +34,7 @@ public class AppListRepository {
 
     public AppListRepository(Application application) {
         this.mApplication = application;
+        liveAppList = new MutableLiveData<List<AppList.DataBean>>();
         getAppList();
     }
 
