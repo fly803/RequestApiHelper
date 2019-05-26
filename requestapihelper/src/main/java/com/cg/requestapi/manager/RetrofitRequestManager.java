@@ -98,7 +98,7 @@ public class RetrofitRequestManager {
          4、BODY
          请求/响应行 + 头 + 体 
          */
-        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
+//        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
         final OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(3, TimeUnit.SECONDS);
         builder.readTimeout(5, TimeUnit.SECONDS);
