@@ -1,5 +1,6 @@
 package com.cg.requestapi.manager;
 
+import android.os.Build;
 import android.util.Log;
 import com.cg.requestapi.base.BaseResponse;
 import com.cg.requestapi.configs.BaseProjectConfig;
@@ -9,12 +10,19 @@ import com.cg.requestapi.request.retrofit.interceptor.HeaderInterceptor;
 //import com.cg.requestapi.utils.HttpsUtils;
 import com.cg.requestapi.request.ssl.HttpsUtils;
 import com.cg.requestapi.request.ssl.MyHttpsUtils;
+import com.cg.requestapi.request.ssl.Tls12SocketFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.SSLContext;
+
+import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
+import okhttp3.TlsVersion;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -126,9 +134,34 @@ public class RetrofitRequestManager {
         if (BaseProjectConfig.isHeaderInterceptor) {
             builder.addInterceptor(new HeaderInterceptor());
         }
-        OkHttpClient httpClient = builder.build();
-        return httpClient;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+          List<ConnectionSpec> specsList = getSpecsBelowLollipopMR1(builder);
+          if (specsList != null) {
+            builder.connectionSpecs(specsList);
+          }
+        }
+        return builder.build();
     }
 
+    private static List<ConnectionSpec> getSpecsBelowLollipopMR1(OkHttpClient.Builder okb) {
 
+        try {
+
+            SSLContext sc = SSLContext.getInstance("TLSv1.2");
+            sc.init(null, null, null);
+            okb.sslSocketFactory(new Tls12SocketFactory(sc.getSocketFactory()));
+
+            ConnectionSpec cs =
+                    new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS).tlsVersions(TlsVersion.TLS_1_2)
+                            .build();
+
+            List<ConnectionSpec> specs = new ArrayList<>();
+            specs.add(cs);
+            specs.add(ConnectionSpec.COMPATIBLE_TLS);
+
+            return specs;
+        } catch (Exception exc) {
+            return null;
+        }
+    }
 }
